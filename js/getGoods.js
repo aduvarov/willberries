@@ -5,7 +5,7 @@ const getGoods = () => {
         fetch('https://willberris-db-default-rtdb.firebaseio.com/db.json')
             .then((res) => res.json())
             .then((data) => {
-                console.log(data);
+                localStorage.setItem('data', JSON.stringify(data));
             });
     };
 
