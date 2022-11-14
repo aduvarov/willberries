@@ -3,8 +3,6 @@ const cart = function () {
     const cart = document.getElementById('modal-cart');
     const closeBtn = cart.querySelector('.modal-close');
 
-    console.dir(cart);
-
     cartBtn.addEventListener('click', function () {
         cart.style.display = 'flex';
     });
