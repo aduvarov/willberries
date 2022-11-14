@@ -53,6 +53,14 @@ const getGoods = () => {
         });
     });
 
+    if (window.location.pathname === '/index.html') {
+        const viewAll = document.querySelector('.more');
+        viewAll.addEventListener('click', event => {
+            event.preventDefault();
+            getData();
+        });
+    }
+
     if (localStorage.getItem('goods') && window.location.pathname === '/goods.html') {
         renderGoods(JSON.parse(localStorage.getItem('goods')));
     }
