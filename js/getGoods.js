@@ -1,5 +1,6 @@
 const getGoods = () => {
     const links = document.querySelectorAll('.navigation-link');
+    const more = document.querySelector('.more');
 
     const renderGoods = goods => {
         const goodsContainer = document.querySelector('.long-goods-list');
@@ -53,9 +54,15 @@ const getGoods = () => {
         });
     });
 
-    if (window.location.pathname === '/index.html') {
-        const viewAll = document.querySelector('.more');
-        viewAll.addEventListener('click', event => {
+    // if (window.location.pathname === '/index.html') {
+    //     viewAll.addEventListener('click', event => {
+    //         event.preventDefault();
+    //         getData();
+    //     });
+    // }
+
+    if (more) {
+        more.addEventListener('click', event => {
             event.preventDefault();
             getData();
         });
