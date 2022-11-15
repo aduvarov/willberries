@@ -8,7 +8,7 @@ const cart = function () {
 
     const deleteCartItem = id => {
         const cart = JSON.parse(localStorage.getItem('cart'));
-        console.log('cart: ', cart);
+
         newCart = cart.filter(good => {
             return good.id !== id;
         });
@@ -36,7 +36,7 @@ const cart = function () {
 
         const newCart = cart.map(good => {
             if (good.id === id) {
-                if (good.count > 0) {
+                if (good.count > 1) {
                     good.count--;
                 }
             }
@@ -68,6 +68,8 @@ const cart = function () {
     };
 
     const renderCartGoods = goods => {
+        const cartTableTotal = document.querySelector('.card-table__total');
+        cartTableTotal.textContent = 0;
         cartTable.innerHTML = '';
         goods.forEach(good => {
             const tr = document.createElement('tr');
@@ -82,34 +84,38 @@ const cart = function () {
             `;
 
             cartTable.append(tr);
+            cartTableTotal.textContent = +cartTableTotal.textContent + +good.count * +good.price;
 
             tr.addEventListener('click', event => {
                 if (event.target.classList.contains('cart-btn-minus')) {
-                    console.log('minus button');
                     minusCartItem(good.id);
                 } else if (event.target.classList.contains('cart-btn-plus')) {
-                    console.log('plus button');
                     plusCartItem(good.id);
                 } else if (event.target.classList.contains('cart-btn-delete')) {
                     deleteCartItem(good.id);
                 }
             });
         });
+        //
     };
 
     const sendForm = () => {
         const cartArray = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+        const nameCustomer = modalForm.querySelector('[name=nameCustomer]');
+        const phoneCustomer = modalForm.querySelector('[name=phoneCustomer]');
 
         fetch('https://jsonplaceholder.typicode.com/posts', {
             method: 'POST',
             body: JSON.stringify({
                 cart: cartArray,
-                name: '',
-                phone: '',
+                name: nameCustomer.value,
+                phone: phoneCustomer.value,
             }),
-        }).then(() => {
-            cart.style.display = '';
-        });
+        })
+            .then(() => localStorage.removeItem('cart'))
+            .then(() => {
+                cart.style.display = '';
+            });
     };
 
     modalForm.addEventListener('submit', event => {
